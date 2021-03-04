@@ -1,0 +1,66 @@
+<!-- The Profile Page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= username %> - Encrypted Diary Management</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/profilepage.css">
+</head>
+<body>
+	<%- include('basic/navbar.ejs') %>
+
+	<!-- The box for showing the profile information -->
+	<div class="container profile-box">
+
+		<!-- The box for showing profile picture -->
+		<div class="profile-picture">
+			<% if (data.profile_picture == undefined) { %><img src="/images/blank-profile-picture.jpg"><% } else { %><img src="<% data.profile_picture %>"><% } %>
+		</div>
+
+		<!-- The box for showing data like username, full name, bio (content) -->
+		<div class="profile-data">
+			<div class="data-item">
+				<span class="key">Username </span>
+				<span class="value"><%= username %></span>
+			</div>
+			<div class="data-item">
+				<span class="key">Name </span>
+				<span class="value">
+					<% if (data.fullname == undefined) { %>None<% } else { %><%= data.fullname %><% } %>
+				</span>
+			</div>
+			<div class="data-item">
+				<span class="key">Bio </span>
+				<span class="value">
+					<% if (data.bio == undefined) { %>None<% } else { %><%= data.bio %><% } %>
+				</span>
+			</div>
+		</div>
+
+		<!-- The box for showing the diary entries already written -->
+		<div class="diary-entries">
+			<% for (let item of data.diary) { %>
+			<div class="diary-item">
+				<span class="diary-title"><%= item.title %></span>
+				<% if (item.content.length > 30) { %>
+				<p class="diary-content"><%= item.content.slice(0, 30) %>...</p>
+				<button class="btn blue-button link-btn" href="/diary?id=<%= item.id %>">Read More</button>
+				<% } else { %>
+				<p class="diary-content"><%= item.content %></p>
+				<% } %>
+				<span class="diary-datetime"><% item.datetime %></span>
+			</div>
+			<% } %>
+		</div>
+	</div>
+
+	<!-- The alert box div -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+</body>
+<%- include('basic/scripts.ejs') %>
+</html>

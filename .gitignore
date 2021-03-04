@@ -1,0 +1,19 @@
+# Ignore List File for Encrypted Diary Management
+#
+# Rules :
+# 1. Ignore the cache files and data like node_modules/, package-lock.json
+# 2. Ignore the database folders
+
+# Ignoring the cache files and folders like node_modules, package-lock.json
+node_modules/
+package-lock.json
+
+# Ignoring the test files :-)
+tests/
+
+# Ignore the database folders
+datafiles/
+
+# Ignoring the media files (the user uploaded files)
+media/uploads/file_attachements/*
+media/uploads/images/*

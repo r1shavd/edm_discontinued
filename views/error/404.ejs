@@ -1,0 +1,22 @@
+<!-- The 404 (Not Found) Error Page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= error.name %> 404 - Encrypted Diary Management</title>
+	<%- include('../basic/head.ejs') %>
+</head>
+<body>
+	<h1>404</h1>
+	<h2>Not Found</h2>
+	<%= error.message %>
+
+	<!-- The alert box div -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+</body>
+<%- include('../basic/scripts.ejs') %>
+</html>

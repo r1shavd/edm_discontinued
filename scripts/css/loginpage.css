@@ -1,0 +1,53 @@
+/*
+Login Page CSS File - Encrypted Diary Management
+
+The default CSS properties are set for the mobile based devices, then we update the CSS properties w.r.t. desktop computers using the media keyword.
+*/
+
+/* Setting the properties of the entire body */
+body {
+	background-image: url('/images/loginpage-background.jpg');
+	background-size: 100%;
+}
+
+/* Setting the CSS properties of the login-box */
+.login-box {
+	width: 80%;
+	height: auto;
+	background-color: rgba(0, 0, 0, 0.7);
+	margin-top: 10%;
+	margin-left: 5%;
+	padding: 50px 20px;
+}
+.login-box .title {
+	color: #fff;
+	font-size: 20px;
+	font-weight: 1000;
+	font-family: monospace;
+	margin: 10px;
+}
+.login-box input {
+	width: 95%;
+	font-size: 15px;
+	border-radius: 0px;
+	border: 1px solid #fafafa;
+	padding: 10px;
+	margin: 5px;
+}
+.login-box #login-btn {
+	margin-left: 40%;
+	margin-top: 10px;
+}
+p {
+	text-align: center;
+}
+
+@media only screen and (min-width: 850px) {
+	/* Updating the CSS properties for the desktop computers with larger monitor screens */
+
+	/* Updating the CSS properties for the login-box according to the desktop computers */
+	.login-box {
+		width: 35%;
+		margin-left: 30%;
+	}
+}

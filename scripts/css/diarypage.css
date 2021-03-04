@@ -1,0 +1,92 @@
+/*
+The CSS File for the Diary Page - Encrypted Diary Management
+
+The same rules are applied as in the other CSS files
+*/
+
+/* Setting the CSS properties for the button-list HTML element */
+.button-list {
+	list-style: none;
+	display: inline-flex;
+}
+.button-list li {
+	list-style: none;
+}
+
+/* Setting the CSS properties of the diary-entry-item containers elements */
+.diary-entry-item {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+.diary-entry-item .title {
+}
+.diary-entry-item .content {
+	width: 100%;
+	/*overflow-x: hidden;*/
+	word-wrap: break-word;
+}
+
+/* Setting the CSS properties of a single diary entry page */
+.diary-title {
+	font-weight: bold;
+	font-size: 25px;
+}
+.diary-content {
+	word-wrap: break-word;
+	padding: 5px;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}
+input[type="password"] {
+	width: 80%;
+	padding: 5px;
+	margin: 5px 0px;
+}
+/* Setting the CSS properties of the textarea element for editing the diary contents */
+textarea[name="diary-content"] {
+	display: none;
+	resize: none;
+	width: 100%;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	font-family: Arial;
+	padding: 5px;
+	margin: 5px 0px;
+	min-height: 400px;
+}
+/* Setting the CSS properties for the buttons on the diary-entry container */
+#edit-btn {
+	display: none;
+}
+#update-btn {
+	display: none;
+}
+#delete-btn {
+	display: none;
+}
+
+/* Setting the CSS properties for the new-diary-entry-modal form elements */
+#new-diary-entry-modal label {
+	margin: 5px;
+}
+#new-diary-entry-modal input[type="text"], #new-diary-entry-modal input[type="password"] {
+	width: 80%;
+	margin: 5px;
+	padding: 5px;
+}
+#new-diary-entry-modal select {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 5px;
+}
+#new-diary-entry-modal textarea {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 5px;
+	font-family: Arial;
+	resize: none;
+	width: 80%;
+	min-height: 200px;
+}

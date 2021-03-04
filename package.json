@@ -1,0 +1,16 @@
+{
+  "name": "encrypteddiarymanagement",
+  "version": "1.0.0",
+  "description": "An application to record memories of our lives along with the suitable digital attachements and photographs in an encrypted form.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rishav Das",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1"
+  }
+}

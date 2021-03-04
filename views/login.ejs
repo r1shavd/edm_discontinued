@@ -1,0 +1,34 @@
+<!-- The Login Page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Log In - Encrypted Diary Management</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/loginpage.css">
+</head>
+<body>
+
+	<!-- The Log In box -->
+	<div class="login-box">
+		<span class="title">Encrypted Diary Management - Log In</span>
+		<br><br>
+		<input type="text" name="username" placeholder="Username">
+		<input type="password" name="password" placeholder="Password">
+		<button class="btn green-button" id="login-btn">Log In</button>
+		<p style="color: #fff;">
+			Or click here to <a style="color: aqua;" href="/signup">Sign Up</a>
+		</p>
+	</div>
+
+	<!-- The alert box -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+
+</body>
+<%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/loginpage.js"></script>
+</html>

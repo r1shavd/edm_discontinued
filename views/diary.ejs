@@ -1,0 +1,167 @@
+<!-- The Diary Page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Diary - Encrypted Diary Management</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/diarypage.css">
+</head>
+<body>
+	<%- include('basic/navbar.ejs') %>
+
+	<!-- The section for displaying the buttons for new diary entry, statistics, else -->
+	<div class="container">
+		<center>
+			<ul class="button-list">
+				<li><button class="btn blue-button modal-show-btn" href="#new-diary-entry-modal" id="new-entry-btn">New diary entry</button></li>
+				<li><button class="btn blue-button link-btn" href="/diary/statistics">Show statistics</button></li>
+			</ul>
+		</center>
+	</div>
+
+	<!-- The section of the page for displaying the existing diary entries for the currently logged in account -->
+	<hr style="font-weight: bold;">
+
+	<% if (diary.length == 1) { %>
+	<div class="container">
+		<!-- The HTML elements that display the diary-contents -->
+		<h2 class="diary-title"><%= diary[0].title %></h2>
+		<p class="diary-content"><%= diary[0].content %></p>
+
+		<!-- The HTML elements that gives the option to edit the diary content (i.e., the input box) -->
+		<textarea name="diary-content" placeholder="Type the new content for the diary entry"></textarea>
+		<input type="password" name="diary-entry-password" placeholder="Enter your account's password">
+
+		<!-- The buttons which executes functions to be used with the being displayed diary entry (i.e., decryption of diary contents, and editing the diary contents) -->
+		<button class="btn yellow-button" id="decrypt-btn">Decrypt</button>
+		<button class="btn green-button" id="edit-btn">Edit</button>
+
+		<!-- The update button for updating the edited diary contents -->
+		<button class="btn blue-button" id="update-btn">Update</button>
+		<!-- The delete button for the deletion of the currently displayed diary entry -->
+		<button class="btn red-button modal-show-btn" href="#confirm-delete-modal" id="delete-btn">Delete</button>
+
+		<!-- The modal to be displayed for confirmation of the diary entry to be deleted -->
+		<div class="modal-dialog" id="confirm-delete-modal">
+			<div class="modal">
+				<div class="modal-head">
+					Confirm deletion!<span class="modal-close-btn">&times;</span>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to delete the modal with the Id <%= diary[0].id %>
+				</div>
+				<div class="modal-foot">
+					<button class="btn green-button" id="confirm-delete-btn">Yes, delete</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			// The JavaScript for defining the particular diary entry contents variables
+			let content = `<%= diary[0].content %>`;
+			const id = `<%= diary[0].id %>`;
+		</script>
+	</div>
+
+	<% } else if (diary.length == 0) { %>
+	<div class="container">
+		<!-- There are no diary entries saved for the currently logged in user -->
+
+		<h2>No diary entries saved for <%= username %></h2>
+	</div>
+	<% } else { %>
+
+	<% for (let item of diary) { %>
+	<div class="container diary-entry-item">
+		<h3 class="title"><%= item.title %></h3>
+		<p class="content"><%= item.content %></p>
+		<button class="btn yellow-button link-btn" href="/diary?id=<%= item.id %>">Read More</button>
+	</div>
+	<% } %>
+
+	<% } %>
+
+	<!-- The modal containg the form for new diary entry -->
+	<div class="modal-dialog" id="new-diary-entry-modal">
+		<div class="modal">
+			<div class="modal-head">
+				New diary entry <span class="modal-close-btn">&times;</span>
+			</div>
+			<div class="modal-body">
+				<!-- The actual entry boxes for the diary entry form -->
+
+				<input type="text" name="diary-entry-title" placeholder="Enter the title of the diary entry">
+				<br>
+				<label for="diary-entry-date">Date of the entry</label>
+				<select name="diary-entry-day">
+					<option>-day-</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+					<option>10</option>
+					<option>11</option>
+					<option>12</option>
+					<option>13</option>
+					<option>14</option>
+					<option>15</option>
+					<option>16</option>
+					<option>17</option>
+					<option>18</option>
+					<option>19</option>
+					<option>20</option>
+					<option>21</option>
+					<option>22</option>
+					<option>23</option>
+					<option>24</option>
+					<option>25</option>
+					<option>26</option>
+					<option>27</option>
+					<option>28</option>
+					<option>30</option>
+					<option>31</option>
+				</select>
+				<select name="diary-entry-month">
+					<option>-month-</option>
+					<option>January</option>
+					<option>February</option>
+					<option>March</option>
+					<option>April</option>
+					<option>May</option>
+					<option>June</option>
+					<option>July</option>
+					<option>August</option>
+					<option>September</option>
+					<option>October</option>
+					<option>November</option>
+					<option>December</option>
+				</select>
+				<select name="diary-entry-year">
+					<% for (let year of data.years) { %><option><%= year %></option><% } %>
+				</select>
+				<textarea name="diary-entry-content" placeholder="Enter the contents for the diary entry"></textarea>
+				<input type="password" name="new-diary-entry-password" placeholder="Enter your account password">
+				<br>
+			</div>
+			<div class="modal-foot">
+				<button class="btn blue-button" id="diary-entry-save-btn">Save</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- The alert box div -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+</body>
+<%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/diarypage.js"></script>
+</html>

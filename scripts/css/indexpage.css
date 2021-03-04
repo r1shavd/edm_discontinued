@@ -1,0 +1,111 @@
+/*
+CSS File for the Index Page - Encrypted Diary Management
+*/
+
+/* Setting the CSS properties for the welcome-container HTML element */
+#welcome-container {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	background-color: #f1f1f1;
+	margin-top: 10px;
+	padding: 10px;
+}
+
+/* Setting the CSS properties for the diary-entry-form and its inner elements */
+#diary-entry-form {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	margin-top: 10px;
+	padding: 10px;
+	background-color: #fafafa;
+}
+#diary-entry-form label {
+	margin: 5px;
+}
+#diary-entry-form input[type="text"], #diary-entry-form input[type="password"] {
+	width: 80%;
+	margin: 5px;
+	padding: 5px;
+}
+#diary-entry-form select {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 5px;
+}
+#diary-entry-form textarea {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 5px;
+	font-family: Arial;
+	resize: none;
+	width: 80%;
+	min-height: 200px;
+}
+
+/* Setting the CSS properties for the other-services and its inner elements */
+#other-services {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #fafafa;
+}
+#other-services ul {
+	margin: 2.5px;
+	padding: 0px;
+}
+#other-services ul li {
+	list-style: none;
+	display: inline-flex;
+	/*margin: 2px;*/
+}
+#other-services ul li button {
+	width: 300px;
+}
+
+/* Setting the CSS properties for the diary-entries and its inner elements */
+#diary-entries {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #fafafa;
+}
+#diary-entries ul {
+	margin: 2.5px;
+	padding: 0px;
+}
+#diary-entries ul li {
+	list-style: none;
+	display: inline-flex;
+	margin: 2px;
+}
+#diary-entries ul li .diary-entry {
+	border: 1px solid darkgray;
+	border-radius: 5px;
+	padding: 5px 10px;
+	background-color: #f1f1f1;
+}
+#diary-entries ul li .diary-entry .diary-entry-title {
+	color: #000;
+	font-weight: bold;
+	margin: 0px 5px;
+	font-size: 17.5px;
+	width: 100px;
+}
+#diary-entries ul li .diary-entry .diary-entry-content {
+	color: #000;
+	margin: 0px 5px;
+	font-size: 15px;
+}
+#diary-entries ul li .diary-entry .diary-entry-datetime {
+	color: darkgray;
+	margin: 0px 5px;
+	font-size: 12.5px;
+}
+#diary-entries ul li .diary-entry button {
+	font-size: 12.5px;
+	padding: 10px;
+	margin: 0px 5px;
+}

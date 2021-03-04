@@ -1,0 +1,126 @@
+<!-- The Index Page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - Encrypted Diary Management</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/indexpage.css">
+</head>
+<body>
+	<%- include('basic/navbar.ejs') %>
+
+	<!-- The welcome banner -->
+	<div class="container" id="welcome-container">
+		<h2 class="welcome-text">Welcome back! <%= username %></h2>
+		<p class="welcome-thought">"<%= homepage_data.welcome_thoughts %>"</p>
+	</div>
+
+	<!-- The form for entering a new diary entry -->
+	<div class="container" id="diary-entry-form">
+		<h2>Upload a new diary entry here</h2>
+		<input type="text" name="diary-entry-title" placeholder="Enter the title of the diary entry">
+		<br>
+		<label for="diary-entry-date">Date of the entry</label>
+		<select name="diary-entry-day">
+			<option>-day-</option>
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+			<option>6</option>
+			<option>7</option>
+			<option>8</option>
+			<option>9</option>
+			<option>10</option>
+			<option>11</option>
+			<option>12</option>
+			<option>13</option>
+			<option>14</option>
+			<option>15</option>
+			<option>16</option>
+			<option>17</option>
+			<option>18</option>
+			<option>19</option>
+			<option>20</option>
+			<option>21</option>
+			<option>22</option>
+			<option>23</option>
+			<option>24</option>
+			<option>25</option>
+			<option>26</option>
+			<option>27</option>
+			<option>28</option>
+			<option>30</option>
+			<option>31</option>
+		</select>
+		<select name="diary-entry-month">
+			<option>-month-</option>
+			<option>January</option>
+			<option>February</option>
+			<option>March</option>
+			<option>April</option>
+			<option>May</option>
+			<option>June</option>
+			<option>July</option>
+			<option>August</option>
+			<option>September</option>
+			<option>October</option>
+			<option>November</option>
+			<option>December</option>
+		</select>
+		<select name="diary-entry-year">
+			<% for (let year of homepage_data.years) { %><option><%= year %></option><% } %>
+		</select>
+		<textarea name="diary-entry-content" placeholder="Enter the contents for the diary entry"></textarea>
+		<input type="password" name="password" placeholder="Enter your account password">
+		<br>
+		<button class="btn red-button" id="diary-entry-reset-btn">Reset</button>
+		<button class="btn blue-button" id="diary-entry-save-btn">Save</button>
+	</div>
+
+	<!-- The div for the other services -->
+	<div class="container" id="other-services">
+		<h2>Use the other services provided by us</h2>
+		<!-- The list of the services provided by the application -->
+		<ul>
+			<li><button class="btn blue-button link-btn" href="/screenshotsmanager">Screenshots Manager</button></li>
+			<li><button class="btn blue-button link-btn" href="/wcbm">Whatsapp Chats Manager</button></li>
+			<li><button class="btn blue-button link-btn" href="/quotesmanager">Quotes Manager</button></li>
+			<li><button class="btn blue-button link-btn" href="/peoplemanager">People Manager</button></li>
+			<li><button class="btn blue-button link-btn" href="/phonebookmanager">Phonebook Manager</button></li>
+			<li><button class="btn blue-button link-btn" href="/accountshacked">Accounts Hacked</button></li>
+		</ul>
+	</div>
+
+	<!-- The div for showing the already saved diary entries -->
+	<div class="container" id="diary-entries">
+		<% if (homepage_data.diary.length == 0) { %>
+		<h2>There are no existing diary enties</h2>
+		<% } else { %>
+		<ul>
+			<% for (let item of homepage_data.diary) { %>
+			<li>
+				<!-- Each item of diary entries (to be filled using the EJS templating) -->
+				<div class="diary-entry">
+					<span class="diary-entry-title"><%= item.title %></span>
+					<span class="diary-entry-datetime"><%= item.datetime %></span>
+					<button class="btn yellow-button link-btn" href="/diary?id=<%= item.id %>">Read More</button>	
+				</div>
+			</li>
+			<% } %>
+		</ul>
+		<% } %>
+	</div>
+
+	<!-- The alert box div -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+</body>
+<%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/indexpage.js"></script>
+</html>

@@ -1,0 +1,34 @@
+<!-- The Sign Up page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign Up - Encrypted Diary Management</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/signuppage.css">
+</head>
+<body>
+
+	<!-- The Sign Up box -->
+	<div class="signup-box">
+		<span class="title">Encrypted Diary Management - Sign Up</span>
+		<br><br>
+		<input type="text" name="username" placeholder="Choose a proper and unique username">
+		<input type="password" name="password" placeholder="Choose a strong password">
+		<button class="btn green-button" id="signup-btn">Sign Up</button>
+		<p style="color: #fff;">
+			Or click here to <a style="color: aqua;" href="/login">Log In</a>
+		</p>
+	</div>
+
+	<!-- The alert box -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+
+</body>
+<%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/signuppage.js"></script>
+</html>
