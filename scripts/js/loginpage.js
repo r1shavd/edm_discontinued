@@ -2,6 +2,14 @@
 Login Page JavaScript - Encrypted Diary Management
 */
 
+// Getting the redirect URL if any exists
+let redirectUrl;
+try {
+	redirectUrl = location.href.split('login?redirect=')[1];
+} catch(error) {
+	redirectUrl = undefined;
+}
+
 // Getting the login button
 const logInBtn = document.getElementById('login-btn');
 
@@ -31,9 +39,17 @@ logInBtn.addEventListener('click', (e) => {
 			// We will check here the response from the backened (wheter authentication success or failed)
 
 			if (response == 'success') {
-				// If the authentication returns true, then we redirect the user to the home page
+				// If the authentication returns true, then we redirect the user to the request redirect URL if specified, else redirects to the home (/ index) page
 
-				location.href = '/';
+				if (redirectUrl == undefined) {
+					// If the redirect URL is not specified, then we redirect the user to the home page
+
+					location.href = '/';
+				} else {
+					// If the redirect URL is specified, then we redirect the user to the requested URL
+
+					location.href = redirectUrl;
+				}
 			} else {
 				// If the authentication returns any other value other than true, then we pop an alert box indicating the user has failed the login attempt
 

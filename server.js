@@ -182,7 +182,7 @@ app.get('/', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the client to the login page
 
-		return response.redirect('/login');
+		return response.redirect('/login?redirect=/');
 	}
 });
 //
@@ -416,7 +416,7 @@ app.get('/logout', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the user back to the index page
 
-		return response.redirect('/');
+		return response.redirect('/login');
 	}
 });
 
@@ -501,7 +501,7 @@ app.get('/diary', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the user to the login page
 
-		return response.redirect('/login')
+		return response.redirect('/login?redirect=/diary');
 	}
 });
 //
@@ -722,7 +722,7 @@ app.get('/diary/statistics', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the user to login page
 
-		return response.redirect('/login');
+		return response.redirect(`/login?redirect=${request.protocol + '://' + request.get('host') + request.originalUrl}`);
 	}
 });
 
@@ -837,7 +837,7 @@ app.get('/diary/search', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the user to the login page
 
-		return response.redirect('/login');
+		return response.redirect(`/login?redirect=${request.protocol + '://' + request.get('host') + request.originalUrl}`);
 	}
 });
 
@@ -890,7 +890,7 @@ app.get('/profile', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the client to the login page
 
-		return response.redirect('/login');
+		return response.redirect(`/login?redirect=${request.protocol + '://' + request.get('host') + request.originalUrl}`);
 	}
 });
 
