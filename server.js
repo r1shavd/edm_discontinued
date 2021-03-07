@@ -147,7 +147,7 @@ app.get('/', (request, response) => {
 
 		try {
 			// Getting the homepage data from the datafiles
-			homepageData = JSON.parse(FS.readFileSync(__dirname + '/datafiles/homepageData.json'));
+			homepageData = JSON.parse(FS.readFileSync(__dirname + '/datafiles/homepage_data'));
 
 			// Setting the random welcome thought choice for the homepage
 			homepageData.welcome_thoughts = homepageData.welcome_thoughts[Math.floor((Math.random() * 10) + 1) % 9];
@@ -162,7 +162,7 @@ app.get('/', (request, response) => {
 			}
 
 			// Reading the already existing diary entries from the server
-			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 			homepageData.diary = [];
 			for (let item of data) {
 				// Iterating through each diary entry
@@ -205,8 +205,8 @@ app.post('/', (request, response) => {
 			let password = request.body.password;
 			console.log(password, hash(password));
 			try {
-				// Getting the users.json data
-				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users.json'));
+				// Getting the users data
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
 				for (let user of data) {
 					// Iterating through each user item
 
@@ -228,8 +228,8 @@ app.post('/', (request, response) => {
 							// Encrypting the contents of the diary entry
 							content = encrypt(content, password);
 
-							// Saving the diary entry to the diary.json file
-							data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+							// Saving the diary entry to the diary file
+							data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 							// Generating the Id for the new diary entry
 							if (data.length == 0) {
 								id = 1;
@@ -245,7 +245,7 @@ app.post('/', (request, response) => {
 								datetime : `${day}-${month+1}-${year}`,
 								timestamp : timestamp,
 							});
-							FS.writeFileSync(__dirname + '/datafiles/diary.json', JSON.stringify(data));
+							FS.writeFileSync(__dirname + '/datafiles/diary', JSON.stringify(data));
 
 							// If the process is executed without any error until now, then we return the success message back to the user
 							return response.send('success');
@@ -308,7 +308,7 @@ app.post('/login', (request, response) => {
 
 		try {
 			// Verifying the user in the database
-			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users.json'));
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
 			for (let item of data) {
 				// Iterating through each data item
 
@@ -372,8 +372,8 @@ app.post('/signup', (request, response) => {
 		password = request.body.password;
 
 		try {
-			// Fetching the data from users.json file
-			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users.json'));
+			// Fetching the data from users file
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
 
 			// Checking another user account with same username exists or not
 			for (let item of data) {
@@ -390,7 +390,7 @@ app.post('/signup', (request, response) => {
 
 			// Saving the new user account credentials back to the database
 			data.push({username : username, password : password})
-			FS.writeFileSync(__dirname + '/datafiles/users.json', JSON.stringify(data));
+			FS.writeFileSync(__dirname + '/datafiles/users', JSON.stringify(data));
 
 			// If the new user has been added to the web app database, then we return an success message back to the client
 			return response.send('success');
@@ -430,8 +430,8 @@ app.get('/diary', (request, response) => {
 		// If the user is already logged in, then we continue the process
 
 		try {
-			// Fetching the diary.json file data
-			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+			// Fetching the diary file data
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 
 			// Getting the GET request data (URL parameters)
 			let id = request.query.id;
@@ -526,7 +526,7 @@ app.post('/diary', (request, response) => {
 
 			try {
 				// Verifying the password entered as compared to the currently logged in user
-				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users.json'));
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
 				for (let user of data) {
 					if (user.username == request.session.username) {
 						if (user.password == hash(password)) {
@@ -557,7 +557,7 @@ app.post('/diary', (request, response) => {
 
 			try {
 				// Verifying the password entered as compared to the currently logged in user
-				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users.json'));
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
 				for (let user of data) {
 					if (user.username == request.session.username) {
 						if (user.password == hash(password)) {
@@ -567,7 +567,7 @@ app.post('/diary', (request, response) => {
 							content = encrypt(content, password);
 							
 							// Saving the diary content to the specified diary entry Id
-							data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+							data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 							for (let item of data) {
 								// Iterating through each diary entry
 
@@ -575,7 +575,7 @@ app.post('/diary', (request, response) => {
 									item.content = content;
 								}
 							}
-							FS.writeFileSync(__dirname + '/datafiles/diary.json', JSON.stringify(data));
+							FS.writeFileSync(__dirname + '/datafiles/diary', JSON.stringify(data));
 
 							// If the task is completed upto here without any error, then we return the 'success' message back to the user
 							return response.send('success');
@@ -598,8 +598,8 @@ app.post('/diary', (request, response) => {
 			let id = request.body.id;
 
 			try {
-				// Parsing the diary.json data in order to delete the requested diary entry
-				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+				// Parsing the diary data in order to delete the requested diary entry
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 				diary = [];
 				for (let item of data) {
 					// Iterating through each diary entries
@@ -615,8 +615,8 @@ app.post('/diary', (request, response) => {
 					}
 				}
 
-				// Updating the diary.json file with the new diary data list
-				FS.writeFileSync(__dirname + '/datafiles/diary.json', JSON.stringify(diary));
+				// Updating the diary file with the new diary data list
+				FS.writeFileSync(__dirname + '/datafiles/diary', JSON.stringify(diary));
 
 				// If the process has been executed without any errors till here, then we return the success message back to the client stating that the task has been executed successfully
 				return response.send('success');
@@ -647,7 +647,7 @@ app.get('/diary/statistics', (request, response) => {
 
 		try {
 			// Fetching the diary entries by the currently logged in user
-			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 
 			// Filterting the diary entries of the currently logged in user
 			diary = [];
@@ -667,7 +667,51 @@ app.get('/diary/statistics', (request, response) => {
 
 			// Creating the blank data object for further data filling
 			data = {}
-			data.total_quantity = diary.length;  // The amount of diary entries in overall history by the current user
+			data.total_entries = diary.length;  // The amount of diary entries in overall history by the current user
+
+			// Splitting the diary entries as per the month timestamps
+			data.months = [];
+			for (let item of diary) {
+				// Iterating through each diary entry in order to split them according to the month timestamps
+
+				month = item.datetime.split('-')[1] + '-' + item.datetime.split('-')[2];
+				append = false;
+				index = 0;
+				for (let i of data.months) {
+					if (i.month == month) {
+						append = true;
+						index = data.months.indexOf(i);
+						break;
+					} else {
+						continue;
+					}
+				}
+
+				if (append) {
+					// If the month timestamp already exists in the months list, then we add the entry upto it
+
+					data.months[index].entries.push({id : item.id, title : item.title, datetime : item.datetime});
+				} else {
+					// If the month timestamp does not exists, then we add up a new diary entry
+
+					data.months.push({
+						month : month,
+						entries : [item],
+					});
+				}
+			}
+			// Making the months and year as per words in the months array
+			for (item of data.months) {
+				// Iterating through each month timestamps
+
+				months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];  // The months array
+				month = months[item.month.split('-')[0] - 1];
+				year = item.month.split('-')[1];
+
+				// Updating the months and year information in the months timestamps list
+				item.month = month;
+				item.year = year;
+			}
 
 			return response.render('diary_stats', {data : data, diary : diary});
 		} catch(error) {
@@ -677,6 +721,121 @@ app.get('/diary/statistics', (request, response) => {
 		}
 	} else {
 		// If the user is not logged in, then we redirect the user to login page
+
+		return response.redirect('/login');
+	}
+});
+
+// Diary Search (/diary/search) endpoint
+app.get('/diary/search', (request, response) => {
+	/* The function which serves the response when there is a GET request on the '/diary/search'. The function first gets the URL parameters and then filters the diary data. Then the data is served to the user through rendering the diary_search.ejs file. */
+
+	// Checking wheter the user logged in or not
+	if (request.session.loggedIn) {
+		// If the user is already logged in, then we continue the process
+
+		try {
+			// Getting the URL parameters (GET request data)
+			let query = request.query.q;
+			let month = request.query.month;
+			let year = request.query.year;
+
+			// Converting each data parameters to all lowercase characters in order for better search
+			query = query.toLowerCase();
+			month = month.toLowerCase();
+			year = year.toLowerCase();
+			
+			// Getting the month index number
+			const months = ['m', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+			month = months.indexOf(month);
+
+			// Fetching the data from the diary file
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
+
+			// Filtering the diary data as per the user entered queries, months and years
+			diary = [];
+			for (let item of data) {
+				// Iterating through each diary entry item
+
+				// Extracting the some data of the currently iterated diary entry (title in all lower characters, month and year created at)
+				itemTitle = item.title.toLowerCase();
+				itemMonth = item.datetime.split('-')[1];
+				itemYear = item.datetime.split('-')[2];
+
+				if (itemTitle.includes(query) || query.includes(itemTitle)) {
+					// If the title and the query matches somehow, then we check further filtering
+
+					if (month == 0) {
+						// If the user has not mentioned any month for filtering the data, then we continue to filter for the year
+
+						if (itemYear == year) {
+							// If the user specified year matches the year of the currently iterated diary entry item, then we continue to append the item to the filtered data array.
+
+							diary.push(item);
+						} else if (year == 'y') {
+							// If the user didn't specify any year. So, we continue to append the diary entry item irrespective of the year
+
+							diary.push(item);
+						} else {
+							// If the user specified year does not matches the year of the currently iterated diary entry item, then we skip the currently iterated item.
+
+							continue;
+						}
+					} else {
+						// If the user specified a month for filtering the diary entry search results, then we continue to filter according to the months
+
+						if (itemMonth == month) {
+							// If the month specified by the user matches the currently iterated diary entry item, then we continue to check for the year
+
+							if (itemYear == year) {
+								// If the user specified year matches the year of the currently iterated diary entry item, then we continue to append the item to the filtered data array.
+
+								diary.push(item);
+							} else if (year == 'y') {
+								// If the user didn't specify any year. So, we continue to append the diary entry item irrespective of the year
+
+								diary.push(item);
+							} else {
+								// If the user specified year does not matches the year of the currently iterated diary entry item, then we skip the currently iterated item.
+
+								continue;
+							}
+						} else {
+							// If the month specified by the user during the search does not matches the currently iterated diary entry item, then we skip the currently iterated item.
+
+							continue;
+						}
+					}
+				} else {
+					// If the user specified search query does not matches with the title of the currently iterated diary entry item, then we skip the currently iterated item.
+
+					continue;
+				}
+			}
+
+			// Creating the data object for storing other required information to be rendered on the client side
+			data = {
+				search_query : query,
+			}
+
+			// Creating the years list for the search form dropdown options
+			data.years = [];
+			let date = new Date();
+			n = date.getFullYear();
+			while (n >= 1990) {
+				data.years.push(n);
+				n -= 1;
+			}
+
+			// Rendering the diary_search page with the filtered diary entries data
+			return response.render('diary_search', {diary : diary, data : data});
+		} catch(error) {
+			// If there are any errors encountered during the process, then we return the error back to the client through rendering the server-failure.ejs file
+
+			return response.render('error/server-failure', {error : error});
+		}
+	} else {
+		// If the user is not logged in, then we redirect the user to the login page
 
 		return response.redirect('/login');
 	}
@@ -693,9 +852,9 @@ app.get('/profile', (request, response) => {
 		// Getting the information related to the user
 		let username = request.session.username;
 		try {
-			// Fetching the information from the users.json file
+			// Fetching the information from the users file
 
-			let data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users.json'));
+			let data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
 			let profileData;
 			for (let item of data) {
 				if (item.username == username) {
@@ -706,7 +865,7 @@ app.get('/profile', (request, response) => {
 			}
 
 			// Fetching the diary entries for the currently logged in user
-			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary.json'));
+			data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/diary'));
 			profileData.diary = [];
 			for (let item of data) {
 				if (item.username == username) {

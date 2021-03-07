@@ -4,8 +4,32 @@ The CSS File for the Diary Page - Encrypted Diary Management
 The same rules are applied as in the other CSS files
 */
 
+/* Setting the CSS properties for the search-box */
+.search-box {
+	margin: 5px 0px;
+	width: 100%;
+	display: inline-flex;	
+}
+.search-box form {
+	width: 100%;
+	text-align: center;
+}
+.search-box form input[type="text"] {
+	padding: 10px;
+	width: 60px;
+	border-radius: 0px;
+	border: 1px solid lightgray;
+}
+.search-box form select {
+	max-width: 60px;
+	padding: 10px;
+	border: 1px solid lightgray;
+}
+
 /* Setting the CSS properties for the button-list HTML element */
 .button-list {
+	padding: none;
+	max-height: 30px;
 	list-style: none;
 	display: inline-flex;
 }
@@ -20,10 +44,10 @@ The same rules are applied as in the other CSS files
 	margin-top: 5px;
 }
 .diary-entry-item .title {
+	/**/
 }
 .diary-entry-item .content {
 	width: 100%;
-	/*overflow-x: hidden;*/
 	word-wrap: break-word;
 }
 
@@ -37,6 +61,10 @@ The same rules are applied as in the other CSS files
 	padding: 5px;
 	border: 1px solid lightgray;
 	border-radius: 5px;
+}
+.diary-datetime {
+	font-size: 15px;
+	color: gray;
 }
 input[type="password"] {
 	width: 80%;
@@ -89,4 +117,12 @@ textarea[name="diary-content"] {
 	resize: none;
 	width: 80%;
 	min-height: 200px;
+}
+
+@media only screen and (min-width: 800px) {
+	/* The CSS properties alteration for the HTML elements when the current display is a desktop version display */
+
+	.search-box form input[type="text"] {
+		width: 200px;
+	}
 }

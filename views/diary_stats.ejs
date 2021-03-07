@@ -3,10 +3,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Diary Statistics - Encrypted Diary Management</title>
+	<title>Diary statistics - Encrypted Diary Management</title>
 	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/diary_statspage.css">
 </head>
 <body>
+	<%- include('basic/navbar.ejs') %>
+
+	<!-- The container for displaying the statistics -->
+	<div class="container">
+		<ul class="main-statistics">
+			<li>
+				<span class="key">Total entries</span>
+				<span class="value"><%= data.total_entries %></span>
+			</li>
+			<li>
+				<span class="key">Diary entries (Arranged as per months)</span>
+				<ul class="months-statistics">
+					<!-- The list to display the diary entries by per month -->
+					<% for (let item of data.months) { %>
+					<li>
+						<span class="head"><%= item.month %>, <%= item.year%></span>
+						<div class="key-value-box">
+							<!-- The box for displaying the amount of the diary entries -->
+							<span class="key">Amount of entries</span><span class="value"><%= item.entries.length %></span>
+						</div>
+
+						<!-- The diary entries in the currently iterated month list -->
+						<h4>Diary entries are</h4>
+						<div class="diary-entries">
+							<% for (let i of item.entries) { %>
+							<div class="diary-entry">
+								<span class="title"><%= i.title %></span>
+								<span class="datetime"><%= i.datetime %></span>
+								<button class="btn yellow-button link-btn" href="/diary?id=<%= i.id %>">View</button>
+							</div>
+							<% } %>
+						</div>
+					</li>
+					<% } %>
+				</ul>
+			</li>
+		</ul>
+	</div>
 
 	<!-- The alert box div -->
 	<div class="modal-dialog alert">
@@ -16,4 +55,5 @@
 	</div>
 </body>
 <%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/diary_statspage.js"></script>
 </html>

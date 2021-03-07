@@ -1,0 +1,82 @@
+<!-- The Diary Search Results Page - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Diary search results - <%= data.search_query %> - Encrypted Diary Management</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/diarypage.css">
+</head>
+<body>
+	<%- include('basic/navbar.ejs') %>
+
+	<!-- The search box for starting another search operation -->
+	<div class="search-box">
+		<form method="get" action="/diary/search">
+			<input type="text" name="q" placeholder="Search in diary">
+			<select name="month">
+				<option>M</option>
+				<option>Jan</option>
+				<option>Feb</option>
+				<option>Mar</option>
+				<option>Apr</option>
+				<option>May</option>
+				<option>Jun</option>
+				<option>Jul</option>
+				<option>Aug</option>
+				<option>Sep</option>
+				<option>Oct</option>
+				<option>Nov</option>
+				<option>Dec</option>
+			</select>
+			<select name="year">
+				<option>Y</option>
+				<% for (let year of data.years) { %><option><%= year %></option><% } %>
+			</select>
+			<button type="submit" class="btn green-button">Search</button>
+		</form>
+	</div>
+	<hr>
+
+
+	<!-- The container for displaying the search results -->
+	<div class="container">
+		<% if (diary.length == 0) { %>
+		<!-- When there no search results, then we display a search task failure message inside an container element -->
+
+		<h2>Looks like we don't have any matches for "<%= data.search_query %>"</h2>
+		<font size="4">
+			<ul>
+				<li>Try a different word or phrase</li>
+				<li>Check for your month and year search filter</li>
+				<li>Check wheter your searching an appropriate term or not</li>
+				<li>Browse the diary entry section thoroughly in order to eyecatch your required entry.</li>
+				<li>Sometimes it might happen that some diary entries aren't listed in the search results, so it is better requested you to check it out yourself.</li>
+			</ul>
+
+			If the problem still persist, then kindly file a report on the <a href="/admin/contact#report-error">contact page</a>.
+		</font>
+		<% } else { %>
+		<!-- When there are more than 0 search results, then we iterate the fetched diary entries inside the container element -->
+		
+		<h2 style="margin-left: 5px;">Total <%= diary.length %> results fetched. Search results are :</h2>
+
+		<% for (let item of diary) { %>
+		<div class="container diary-entry-item">
+			<h3 class="title"><%= item.title %></h3>
+			<p class="content"><%= item.content %></p>
+			<button class="btn yellow-button link-btn" href="/diary?id=<%= item.id %>">Read More</button>
+		</div>
+		<% } %>
+	</div>
+	<% } %>
+
+	<!-- The alert box div -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+</body>
+<%- include('basic/scripts.ejs') %>
+</html>

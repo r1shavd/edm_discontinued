@@ -28,6 +28,8 @@
 		<!-- The HTML elements that display the diary-contents -->
 		<h2 class="diary-title"><%= diary[0].title %></h2>
 		<p class="diary-content"><%= diary[0].content %></p>
+		<span class="diary-datetime">Created on : <%= diary[0].datetime %> (DD-MM-YYYY)</span>
+		<br><br>
 
 		<!-- The HTML elements that gives the option to edit the diary content (i.e., the input box) -->
 		<textarea name="diary-content" placeholder="Type the new content for the diary entry"></textarea>
@@ -72,6 +74,34 @@
 	</div>
 	<% } else { %>
 
+	<!-- The search box for searching the diary entries -->
+	<div class="search-box">
+		<form method="get" action="/diary/search">
+			<input type="text" name="q" placeholder="Search in diary">
+			<select name="month">
+				<option>M</option>
+				<option>Jan</option>
+				<option>Feb</option>
+				<option>Mar</option>
+				<option>Apr</option>
+				<option>May</option>
+				<option>Jun</option>
+				<option>Jul</option>
+				<option>Aug</option>
+				<option>Sep</option>
+				<option>Oct</option>
+				<option>Nov</option>
+				<option>Dec</option>
+			</select>
+			<select name="year">
+				<option>Y</option>
+				<% for (let year of data.years) { %><option><%= year %></option><% } %>
+			</select>
+			<button type="submit" class="btn green-button">Search</button>
+		</form>
+	</div>
+
+	<h2 style="margin-left: 5px;">Diary entries are listed below as per timeline :</h2>
 	<% for (let item of diary) { %>
 	<div class="container diary-entry-item">
 		<h3 class="title"><%= item.title %></h3>
