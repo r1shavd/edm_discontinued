@@ -1,0 +1,161 @@
+<!-- People tab for the WCBM - Encrypted Diary Management -->
+
+<!-- <% if (people == undefined) { %>
+<% for (let people of peoples) { %>
+<%= people.name %>
+<% } %>
+<% } else { %>
+<%= people.info.name %>
+<% } %> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - WhatsApp Chats Backup Manager</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/wcbm.css">
+</head>
+<body>
+	<%- include('basic/wcbm_navbar.ejs') %>
+
+	<!-- The welcome banner -->
+	<div class="container welcome-container">
+		<h2 class="welcome-text">Good Day! <%= username %>. Welcome to the <b>WhatsApp Chats Backup Manager</b> service.</h2>
+		<p class="welcome-info">Peoples tab : Here you will find the details about a people entry or see the list of the people items that are created by you.</p>
+	</div>
+
+	<!-- PEOPLE INFORMATION -->
+	<% if (people == undefined) { %>
+	<!-- Displaying the list of the people items that are created by currently logged in user -->
+	<div class="container" id="people-container">
+		<% if (peoples.length != 0) { %>
+		<h3>Existing people items created by you are displayed below : </h3>
+		<% for (let i = 0; i < peoples.length; i += 4) { %>
+		<div class="rows">
+			<% if (peoples[i] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= peoples[i].name %></span><br>
+				<span class="people-logs-quantity"><%= peoples[i].logs %> logs inserted from</span><br>
+				<span class="people-datetime"><%= peoples[i].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= peoples[i].id %>">View Logs</button>
+			</div>
+			<% } %>
+
+			<% if (peoples[i+1] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= peoples[i + 1].name %></span><br>
+				<span class="people-logs-quantity"><%= peoples[i + 1].logs %> logs inserted from</span><br>
+				<span class="people-datetime"><%= peoples[i + 1].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= peoples[i + 1].id %>">View Logs</button>
+			</div>
+			<% } %>
+
+			<% if (peoples[i+2] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= peoples[i + 2].name %></span><br>
+				<span class="people-logs-quantity"><%= peoples[i + 2].logs %> logs inserted from</span><br>
+				<span class="people-datetime"><%= peoples[i + 2].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= peoples[i + 2].id %>">View Logs</button>
+			</div>
+			<% } %>
+
+			<% if (peoples[i+3] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= peoples[i + 3].name %></span><br>
+				<span class="people-logs-quantity"><%= peoples[i + 3].logs %> logs inserted from</span><br>
+				<span class="people-datetime"><%= peoples[i + 3].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= peoples[i + 3].id %>">View Logs</button>
+			</div>
+			<% } %>
+		</div>
+		<% } %>
+		<% } else { %>
+		<!-- If there are no people cards to be iterated on the display screen -->
+		<p>
+			There are no people data entries are empty.
+		</p>
+		<% } %>
+
+		<div class="people-container-info">
+			<p>
+				Want to create a new people entry, <a href="/wcbm#new-people-form">click here</a>
+			</p>
+		</div>
+	</div>
+	<% } else { %>
+	<!-- Displaying the information for the particular people item with the Id mentioned in the URL parameters -->
+	<div class="people-box">
+
+		<!-- The basic information for the people item -->
+		<div class="container basic-info">
+			<h3>Displaying information for people item with Id-<%= people.info.id %></h3>
+			<table>
+				<tr>
+					<th>Name</th>
+					<td><%= people.info.name %></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td class="description"><%= people.info.description %></td>
+				</tr>
+				<tr>
+					<th>People-Id</th>
+					<td><%= people.info.id %></td>
+				</tr>
+				<tr>
+					<th>Datetime</th>
+					<td><%= people.info.datetime %></td>
+				</tr>
+			</table>
+
+			<br>
+			<button class="btn blue-button modal-show-btn" href="#people-info-decrypt-form">Decrypt information</button>
+		</div>
+
+		<!-- The container showing the latest entries done by the user with proper datetime for the currently displayed user -->
+		<div class="container entries-logs-container">
+			<h3>History of chatlogs</h3>
+			<% if (people.logs.length == 0) { %>
+			<!-- If there are no chatlog history, then we display the message of no history -->
+			<p>No history of chatlogs entries available.</p>
+			<% } else { %>
+			<!-- Search form for the chatlogs -->
+			<div class="search-bar">
+				<input type="text" name="search-query" placeholder="Search for logs">
+			</div>
+
+			<!-- Displaying the history of chatlog entries on the web page -->
+			<% for (let item of people.logs) { %>
+			<div class="log-info">
+				<p>
+					Chatog inserted of <b><%= item.month %>-<%= item.year %></b> <a href="/wcbm?tab=chatlogs&id=<%= item.id %>">View</a> <span class="datetime"><%= item.datetime %></span>
+					<span class="chatlog-description"><%= item.description %></span>
+				</p>
+			</div>
+			<% } %>
+			<% } %>
+		</div>
+	</div>
+
+	<!-- The modal that contains the form for the decryption of the information on the page -->
+	<div class="modal-dialog" id="people-info-decrypt-form">
+		<div class="modal">
+			<div class="modal-head">
+				Decrypt information <span class="modal-close-btn">&times;</span>
+			</div>
+			<div class="modal-body">
+				<!-- The form for the decryption of the data for the currently loaded people information -->
+				<input type="password" name="people-info-decrypt-password" placeholder="Enter your password">
+				<br><br>
+				<button class="btn blue-button" id="people-info-decrypt-btn">Decrypt information</button>
+			</div>
+			<div class="foot">
+			</div>
+		</div>
+	</div>
+	<% } %>
+
+</body>
+<%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/wcbm_people.js"></script>
+</html>

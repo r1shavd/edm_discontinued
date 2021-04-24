@@ -1,0 +1,30 @@
+<!-- Chatlogs tab for WCBM - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - WhatsApp Chats Backup Manager</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/wcbm.css">
+</head>
+<body>
+	<%- include('basic/wcbm_navbar.ejs') %>
+
+	<!-- The welcome banner -->
+	<div class="container welcome-container">
+		<h2 class="welcome-text">Good Day! <%= username %>. Welcome to the <b>WhatsApp Chats Backup Manager</b> service.</h2>
+		<p class="welcome-info">Chatlogs tab : Here you can find out the details about a chatlog or see the entire set of logs.</p>
+	</div>
+
+	<!-- <% if (log == undefined) { %>
+	<% for (let log of logs) { %>
+	<%= log.month %>
+	<% } %>
+	<% } else { %>
+	<%= log.month %>
+	<% } %> -->
+	
+</body>
+<%- include('basic/scripts.ejs') %>
+<!-- <script type="text/javascript" src="/js/wcbm_people.js"></script> -->
+</html>

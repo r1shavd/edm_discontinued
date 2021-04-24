@@ -1,0 +1,184 @@
+<!-- The index file for the WCMB - Encrypted Diary Management -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - WhatsApp Chats Backup Manager</title>
+	<%- include('basic/head.ejs') %>
+	<link rel="stylesheet" type="text/css" href="/css/wcbm.css">
+</head>
+<body>
+	<%- include('basic/wcbm_navbar.ejs') %>
+
+	<!-- The welcome banner -->
+	<div class="container welcome-container">
+		<h2 class="welcome-text">Good Day! <%= username %>. Welcome to the <b>WhatsApp Chats Backup Manager</b> service.</h2>
+		<p class="welcome-info">The service provides the features of creating a specific person's chat logs with you or someone else. Below are the required forms for creating a new person (chats sender), or for adding a new chat logs of a month to an existing person. For more information, <a href="#wcbm-help">click here</a></p>
+	</div>
+
+	<!-- The container which contains the information for both creating new people and for creating new chatlog form. -->
+	<div class="container welcome-information">
+		<div class="info-column" style="border-right: 1px solid gray;">
+			<p>
+				If you wish to add up a new people (coversation head) to your backups data, then you can add up the data using the form below. Click the button to get redirected to the form. 
+				<button class="btn blue-button link-btn" href="#new-people-form">Click here</button>
+			</p>
+		</div>
+		<div class="info-column">
+			<p>
+				If you wish to add new chat logs (chat backups) to existing people (conversation head), then add up the data using the form below. Click the button to get redirected to the form.
+				<button class="btn blue-button link-btn" href="#new-chatlog-form">Click here</button>
+			</p>
+		</div>
+	</div>
+
+	<!-- The people container, which shows the people (the sendes) whose chat logs are stored over here. Here, we display the people informations and records in the form of cards. In each rows, there are either 4 or 5 cards. We will use the EJS rendering in order to divide the people records in database in per rows. -->
+	<div class="container" id="people-container">
+		<% for (let i = 0; i < wcbm.people.length; i += 4) { %>
+		<div class="rows">
+			<% if (wcbm.people[i] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= wcbm.people[i].name %></span><br>
+				<span class="people-logs-quantity"><%= wcbm.people[i].logs_quantity %> logs inserted from</span><br>
+				<span class="people-datetime"><%= wcbm.people[i].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= wcbm.people[i].id %>">View Logs</button>
+			</div>
+			<% } %>
+
+			<% if (wcbm.people[i+1] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= wcbm.people[i + 1].name %></span><br>
+				<span class="people-logs-quantity"><%= wcbm.people[i + 1].logs_quantity %> logs inserted from</span><br>
+				<span class="people-datetime"><%= wcbm.people[i + 1].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= wcbm.people[i + 1].id %>">View Logs</button>
+			</div>
+			<% } %>
+
+			<% if (wcbm.people[i+2] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= wcbm.people[i + 2].name %></span><br>
+				<span class="people-logs-quantity"><%= wcbm.people[i + 2].logs_quantity %> logs inserted from</span><br>
+				<span class="people-datetime"><%= wcbm.people[i + 2].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= wcbm.people[i + 2].id %>">View Logs</button>
+			</div>
+			<% } %>
+
+			<% if (wcbm.people[i+3] != undefined) { %>
+			<div class="people-card">
+				<span class="people-name"><%= wcbm.people[i + 3].name %></span><br>
+				<span class="people-logs-quantity"><%= wcbm.people[i + 3].logs_quantity %> logs inserted from</span><br>
+				<span class="people-datetime"><%= wcbm.people[i + 3].datetime %></span><br>
+				<button class="btn yellow-button link-btn" href="/wcbm?tab=people&id=<%= wcbm.people[i + 3].id %>">View Logs</button>
+			</div>
+			<% } %>
+		</div>
+		<% } %>
+
+		<% if (wcbm.people.length == 0) { %>
+		<!-- If there are no people cards to be iterated on the display screen -->
+		<p>
+			There are no people data entries are empty.
+		</p>
+		<% } %>
+
+		<div class="people-container-info">
+			<p>
+				These are few random people cards displayed above. For more data <a href="/wcbm?tab=people">click here</a>. Or else to create a new people entry, <a href="#create-people-form">click here</a>
+			</p>
+		</div>
+	</div>
+
+	<!-- The new-people-form is the form for the user to enter the required information in order to create a new people whose chat logs are required to be stored as backups. -->
+	<div class="container" id="new-people-form">
+		<h2>Create a new people whose chat logs with you, are required to be stored</h2>
+		<label>Enter the required information as per asked below :</label>
+		<br><br>
+		<input type="text" name="people-name" placeholder="Name of the person">
+		<textarea name="people-description" placeholder="Write something about that person"></textarea>
+		<input type="password" name="new-people-form-password" placeholder="Enter your password">
+		<br>
+		<button class="btn blue-button" id="new-people-form-btn">Create</button>
+	</div>
+
+	<!-- The container showing the latest entries done by the user with proper datetime -->
+	<div class="container entries-logs-container">
+		<h2>History of chatlogs</h2>
+		<% if (wcbm.logs.length == 0) { %>
+		<!-- If there are no chatlog history, then we display the message of no history -->
+		<p>No history of chatlogs entries available.</p>
+		<% } else { %>
+		<!-- Displaying the history of chatlog entries on the web page -->
+		<% for (let item of wcbm.logs) { %>
+		<div class="log-info">
+			<p>Chatog inserted of <b><%= item.month %>-<%= item.year %></b> for people with <b>Id-<%= item.people_id %></b> <a href="/wcbm?tab=chatlogs&id=<%= item.id %>">View</a> <span class="datetime"><%= item.datetime %></span></p>
+		</div>
+		<% } %>
+
+		<% } %>
+	</div>
+
+	<!-- The form to enter a new chat log data into an already existing people chat head, the form asks for all the required information and then proceeds the submit request -->
+	<div class="container" id="new-chatlog-form">
+		<h2>Write an entry of the data and chatlog file to an existing people</h2>
+		<label>Enter the required information for the chatlog entry :</label>
+		<br><br>
+		<!-- Asking the user for the people Id in order to save the chats log to a specific place in the database -->
+		<input type="text" name="people-id" placeholder="Id for the chat head">
+		<br>
+		<label>People Name : Enter an Id above</label>
+		<br>
+
+		<!-- The months and year information entry by the user -->
+		<select name="chatlog-entry-month">
+			<option>Month</option>
+			<option>January</option>
+			<option>February</option>
+			<option>March</option>
+			<option>April</option>
+			<option>May</option>
+			<option>June</option>
+			<option>July</option>
+			<option>August</option>
+			<option>September</option>
+			<option>October</option>
+			<option>November</option>
+			<option>December</option>
+		</select>
+		<select name="chatlog-entry-year">
+			<option>Year</option>
+			<% for (let year of data.years) { %>
+			<option><%= year %></option>
+			<% } %>
+		</select>
+		<br>
+		
+		<!-- The textarea input field for writting an additional description for the data entry -->
+		<textarea name="chatlog-entry-description" placeholder="Chatlog entry description - Enter some info"></textarea>
+		<br>
+
+		<!-- The input boxes and labels for backup text file -->
+		<label>Choose the correct WhatsApp chat backup txt file</label>
+		<input type="file" name="chatlog-entry-file">
+
+		<!-- Asking the user for the password for security reasons -->
+		<input type="password" name="new-chatlog-form-password" placeholder="Enter your password">
+		<button class="btn blue-button" id="new-chatlog-form-btn">Continue</button>
+	</div>
+
+	<!-- The help section for the service. It contains the entire documentation for this service. -->
+	<div class="container" id="wcbm-help">
+		<h2>Help (Documentation for the WhatsApp Chats Backup Manager service)</h2>
+
+		<p></p>
+	</div>
+
+	<!-- The alert box div -->
+	<div class="modal-dialog alert">
+		<div class="alert-box">
+			<div class="head"></div><div class="body"></div>
+		</div>
+	</div>
+</body>
+<%- include('basic/scripts.ejs') %>
+<script type="text/javascript" src="/js/wcbm.js"></script>
+</html>

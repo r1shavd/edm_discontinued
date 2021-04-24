@@ -8,8 +8,9 @@
 node_modules/
 package-lock.json
 
-# Ignoring the test files :-)
+# Ignoring the test files amd the tmp/ directory :-)
 tests/
+tmp/
 
 # Ignore the database folders
 datafiles/

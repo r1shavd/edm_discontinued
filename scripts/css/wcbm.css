@@ -1,0 +1,235 @@
+/*
+The CSS file for the WhatsApp Chats Backup Manager service - Encrypted Diary Management
+
+Same rules are applied as per the other CSS files.
+*/
+
+/* Setting the CSS properties for the welcome-container */
+.welcome-container {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #f2f2f2;
+}
+
+/* Setting the CSS properties for the welcome-information and its inner HTML elements */
+.welcome-information {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	background-color: #f1f1f1;
+	display: inline-flex;
+}
+.welcome-information .info-column {
+	width: 50%;
+	margin: 5px;
+	padding-left: 10px;
+	line-height: 25px;
+}
+
+/* Setting the CSS properties for the people-container and its inner elements */
+#people-container {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#people-container .rows {
+	width: 100%;
+	display: inline-flex;
+}
+#people-container .people-card {
+	border: 1px solid lightgray;
+	border-radius: none;
+	padding: 10px;
+	text-align: center;
+	width: 250px;
+	margin: 5px;
+}
+#people-container .people-card .people-name {
+	font-size: 17.5px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+#people-container .people-card .people-logs-quantity {
+	font-size: 15px;
+	color: grey;
+	text-shadow: 0px 0px 5px #fff;
+}
+#people-container .people-card .people-datetime {
+	font-size: 12px;
+	opacity: .8;
+	white-space: nowrap;
+}
+#people-container .people-container-info {
+	width: 100%;
+	display: inline-flex;
+	padding: 5px;
+	text-align: center;
+}
+
+/* Setting the CSS properties for the new-people-form HTML element and its inner elements */
+#new-people-form {
+	border: 1px solid lightgray;
+	border-radius: none;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+#new-people-form label {
+	margin: 5px;
+}
+#new-people-form input[type="text"], #new-people-form input[type="password"] {
+	width: 90%;
+	padding: 10px;
+	margin: 5px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	font-family: Arial;
+	font-size: 16px;
+}
+#new-people-form textarea {
+	width: 90%;
+	padding: 10px;
+	margin: 5px;
+	resize: none;
+	min-height: 100px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	font-family: Arial;
+}
+
+/* Setting the CSS properties for the new-chatlog-form HTML elements and its inner elements */
+#new-chatlog-form {
+	border: 1px solid lightgray;
+	border-radius: none;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+#new-chatlog-form label {
+	margin: 5px;
+}
+#new-chatlog-form input[type="text"], #new-chatlog-form input[type="password"] {
+	width: 90%;
+	padding: 10px;
+	margin: 5px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	font-family: Arial;
+	font-size: 16px;
+}
+#new-chatlog-form textarea {
+	width: 90%;
+	padding: 10px;
+	margin: 5px;
+	resize: none;
+	min-height: 100px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	font-family: Arial;
+}
+#new-chatlog-form select {
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid lightgray;
+	border-radius: none;
+}
+#new-chatlog-form input[type="file"] {
+}
+
+/* Setting the CSS properties for the entries-logs-container and its inner HTML elements */
+.entries-logs-container {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	min-height: 100px;
+	max-height: 300px;
+	overflow-y: scroll;
+}
+.entries-logs-container .log-info {
+	border: 1px solid lightgray;
+	border-radius: none;
+	margin: 5px;
+	padding: 0px 10px;
+}
+.entries-logs-container .log-info p {
+	width: 100%;
+}
+.entries-logs-container .log-info p a {
+	margin-left: 10px;
+	text-decoration: none;
+	font-style: italic;
+}
+.entries-logs-container .log-info p .datetime {
+	float: right;
+	opacity: .7;
+	font-size: 12.5px;
+}
+
+/* Setting the CSS properties for the wcbm-help container. The container which contains the information for the documentation for this service. */
+#wcbm-help {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: #f2f2f2;
+}
+
+/* Setting the CSS properties for the people-box HTML element and its inner HTML elements. The element is only displayed at the people tab page, and the box contains the detailed information about a people item created by the users. */
+.people-box {
+	width: 100%;
+	border-top: 2px solid #afafaf;
+	padding: 10px 0px;
+}
+.people-box .basic-info table {
+	width: 100%;
+	border: 1px solid #afafaf;
+	padding: 2.5px;
+}
+.people-box .basic-info table td, .people-box .basic-info table th {
+	border: 1px solid #afafaf;
+	padding: 10px;
+	color: #fff;
+	background-color: #2d3436;
+}
+.people-box .basic-info table th {
+	color: #2ecc71;
+	text-transform: uppercase;
+}
+.people-box .entries-logs-container .chatlog-description {
+	display: none;
+}
+.people-box .entries-logs-container .search-bar {
+	display: none;
+}
+.people-box .entries-logs-container .search-bar input[type="text"] {
+	width: 60%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+}
+
+/* Setting the properties for the people-info-decrypt-form HTML elements and its inner elements. */
+#people-info-decrypt-form .modal {
+	width: 85%;
+	margin: 2px;
+}
+#people-info-decrypt-form .modal input[name="people-info-decrypt-password"] {
+	width: 80%;
+	padding: 10px;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}
+
+@media only screen and (min-width: 850px) {
+	/* Alteration in CSS properties of some elements when switched to mobile view */
+
+	#people-info-decrypt-form .modal {
+		width: 70%;
+		margin: 10px 12.5%;
+	}
+}

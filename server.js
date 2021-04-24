@@ -130,8 +130,15 @@ app.use(EXPRESS.static('media'));
 // Setting the template type (view engine) of the app to the ejs
 app.set('view engine', 'ejs');
 
+// // Enabling the file upload
+// app.use(EXPRESS_FILEUPLOAD({
+// 	createParentPath : true,
+// 	useTempFiles : true,
+// 	tempFilesDir : 'tmp/',
+// }));
+
 // Defining some of the properties for the POST requests and other body parser properties
-app.use(BODY_PARSER.urlencoded({ extended: true }));
+app.use(BODY_PARSER.urlencoded({extended: true}));
 app.use(BODY_PARSER.json());
 app.use(SESSION({secret: '15265126735vdfghdsf35hgdfhgsdf53624', resave: true, saveUninitialized: true}));
 
@@ -182,7 +189,7 @@ app.get('/', (request, response) => {
 	} else {
 		// If the user is not logged in, then we redirect the client to the login page
 
-		return response.redirect('/login?redirect=/');
+		return response.redirect('/login');
 	}
 });
 //
@@ -420,7 +427,8 @@ app.get('/logout', (request, response) => {
 	}
 });
 
-// DEFINING THE MAIN ENDPOINTS FOR THE DIARY PART OF THE APPLICATION HERE
+// DEFINING THE MAIN ENDPOINTS FOR THE DIARY PART OF THE APPLICATION BELOW
+//
 // Diary (/diary) endpoint
 app.get('/diary', (request, response) => {
 	/* The function which serves the response when there is a GET request on the '/diary' URL of the app. Here, we will first fetch the already saved diary entries by the currently logged in user, and then we start fetching the particular diary entry as per specified by the GET request data (URL parameters). */
@@ -833,6 +841,485 @@ app.get('/diary/search', (request, response) => {
 			// If there are any errors encountered during the process, then we return the error back to the client through rendering the server-failure.ejs file
 
 			return response.render('error/server-failure', {error : error});
+		}
+	} else {
+		// If the user is not logged in, then we redirect the user to the login page
+
+		return response.redirect(`/login?redirect=${request.protocol + '://' + request.get('host') + request.originalUrl}`);
+	}
+});
+
+// DEFINING THE ENDPOINTS FOR THE WHATSAPP CHATS BACKUP MANAGER PART OF THE APPLICATION BELOW
+//
+// The Index (/wcbm) endpoint
+app.get('/wcbm', (request, response) => {
+	/* The function which serves the response when there is a GET request on the '/wcbm' URL of the app. The function renders the wcbm.ejs file to the frontend. */
+
+	// Checking if the user is logged in or not
+	if (request.session.loggedIn) {
+		// If the user is currently logged in, then we continue to render the wcbm.ejs file
+
+		// Checking if the URL specified to load any specific tabs or not
+		if (request.query.tab == 'people') {
+			// If the URL query specifies the people tab to be loaded, then we continue the process
+
+			// Checking if any particular people id is mentioned to be loaded
+			id = request.query.id;
+			if (id !== undefined) {
+				// If there is a people Id specified to be loaded, then we continue to load it
+
+				// Creating a blank data object
+				people = {}
+
+				try {
+					// Loading the data from the datafiles
+					data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+					for (let item of data.people) {
+						// Iterating through each data items to find the specifed people Id
+
+						if (item.info.id == id) {
+							// If the specified Id matches with the currently iterated item, then we continue the process
+
+							// Checking wheter the specified people belong to the currently logged in user or not
+							if (item.info.owner == request.session.username) {
+								// If the people item does belong to the logged in user, then we continue
+							
+								people = item;
+							} else {
+								// If the people item does not belong to the logged in user, then we return an error
+
+								return response.render('error/404');
+							}
+						} else {
+							// If the specified Id does not matches with the currently iterated item, then we continue for the next loop
+
+							continue;
+						}
+					}
+
+					// Changing the timestamps of the people's log to the datetime format
+					for (let item of people.logs) {
+						// Iterating through logs of the people item
+
+						time = new Date(item.timestamp);
+						time = time.toLocaleString();
+						item.datetime = time;  // Setting the datetime for the log entry
+					}
+
+					// Changing the main timestamp
+					time = new Date(people.info.timestamp);
+					time = time.toLocaleString();
+					people.info.datetime = time;  // Setting the text format datetime data to the people data object
+				} catch(error) {
+					// If there are any errors encountered during the process, then we display the error message to client using the server failure error page
+
+					return response.render('error/server-failure', {error : error});
+				}
+
+				// Rendering the wcbm_people.ejs file to the user with the loaded information of the mentioned people Id
+				return response.render('wcbm_people', {peoples : undefined, people : people});
+			} else {
+				// If no particular people Id is mentioned in the URL parameters, then we continue to serve the entire list of people to the user
+
+				// Creating a blank list in order to store the filtered data
+				let peoples = [];
+
+				try {
+					// Getting the data from the datafiles
+					data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+
+					for (let item of data.people) {
+						// Iterating through each people item
+
+						if (item.info.owner == request.session.username) {
+							// If the currently iterated people item belongs to the logged in user, then we append it to the filtered data lists
+
+							time = new Date(item.info.timestamp);
+							time = time.toLocaleString();  // Converting the timestamp to the datetime string format
+							peoples.push({
+								id : item.info.id,
+								name : item.info.name,
+								description : item.info.description,
+								datetime : time,
+								logs : item.logs.length,
+							});
+						} else {
+							// If the currently iterated people item does not belong to the logged in user, then we continue to the next loop
+
+							continue;
+						}
+					}
+				} catch(error) {
+					// If there are any errors encountered during the process, then we display the error message to client using the server failure error page
+
+					return response.render('error/server-failure', {error : error});
+				}
+
+				// After loading and filtering all the required information, we continue to render the 'wcbm_people.ejs' file to the frontend with the loaded information
+				return response.render('wcbm_people', {peoples : peoples, people : undefined});
+			}
+		} else if (request.query.tab == 'chatlogs') {
+			// If the URL parameters specifies the chatlog tab to be loaded, then we continue to load it
+
+			// Checking if any particular chatlog Id is mentioned or not
+			id = request.query.id;
+			if (id !== undefined) {
+				// If there is a particular chatlog mentioned in the URL parameters, then we continue to load it
+
+				// Creating a blank data object to store the data
+				let log = {}
+
+				try {
+					// Getting the data from the datafiles
+					data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+
+					for (let item of data.logs) {
+						// Iterating through all the items to find the required item
+
+						if (item.id == id) {
+							// If the currently iterated item matches the specified Id, then we continue to check wheter it belongs to the logged in user
+
+							if (item.owner == request.session.username) {
+								// If the specified chatlog item does belong to the logged in user, then we continue to store the data
+
+								time = new Date(item.timestamp);
+								time = time.toLocaleString();
+								item.datetime = time;  // Changing the timestamp to a time string for the chatlog
+
+								log = item;
+							} else {
+								// If the specified chatlog item does not belong to the logged in user, then we continue to return an 404 error back to the user
+
+								return response.render('error/404');
+							}
+						}
+					}
+				} catch(error) {
+					// If there are any errors encountered during the process, then we display the error message to client using the server failure error page
+
+					return response.render('error/server-failure', {error : error});
+				}
+
+				// After loading and filtering of all required information, we continue to render the 'wcbm_chatlog.ejs' file back to the user with information loaded
+				return response.render('wcbm_chatlog', {logs : undefined, log : log});
+			} else {
+				// If there are no chatlog Id mentioned, then we continue to load all those chatlogs made by the currently logged in user
+
+				// Creating a blank object to store the data
+				let logs = [];
+
+				try {
+					// Getting the data from the datafiles
+					data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+
+					for (let item of data.logs) {
+						// Iterating through each chatlog items in order to filter proper data items
+
+						if (item.owner == request.session.username) {
+							// If the currently iterated item does belong to the currently logged in user, then we append the item
+
+							time = new Date(item.timestamp);
+							time = time.toLocaleString();
+							logs.push({
+								id : item.id,
+								people_id : item.people_id,
+								month : month,
+								year : year,
+								description : description,
+								file : filename,
+								datetime : time,
+							});
+						}
+					}
+				} catch(error) {
+					// If there are any errors encountered during the process, then we display the error message to client using the server failure error page
+
+					return response.render('error/server-failure', {error : error});
+				}
+
+				// After loading and filtering of all required information, we continue to render the 'wcbm_chatlog.ejs' file back to the user with information loaded
+				return response.render('wcbm_chatlog', {logs : logs, log : undefined});
+ 			}
+		} else {
+			// If there are no tabs specified in the URL parameters, then we continue to load the homepage for the WCBM service
+		
+			// Creating a blank wcbm data object to store the "people" as well as "logs" data
+			let wcbm = {people : [], logs : []};
+			
+			try {
+				// Fetching the required data from the datafiles
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+
+				if (data.people.length != 0) {
+					// If the people data array in the datafiles is not empty, then only we continue to filter the people data items
+
+					for (item of data.people) {
+						// Iterating over the people data in the wcbm
+
+						if (item.info.owner == request.session.username) {
+							// If the currently iterated item is owned by the currently logged in user, then we continue to append the item
+
+							// Making the proper datetime string from the timestamp number
+							time = new Date(item.info.timestamp);
+							time = time.toLocaleString();
+
+							// Appending the filtered data item
+							wcbm.people.push({
+								id : item.info.id,
+								name : item.info.name,
+								logs_quantity : item.logs.length,
+								datetime : time,
+							});
+						} else {
+							// If the currently iterated item is not owned by the currently logged in user, then we continue to next iteration and repeat the same process
+
+							continue;
+						}
+
+					}
+				}
+
+				if (data.logs.length != 0) {
+					// If the logs in the data array in the datafiles is not empty, then only we continue to filter through the logs data items
+
+					for (let item of data.logs) {
+						// Iterating through each logs and entry history item
+
+						if (item.owner == request.session.username) {
+							// If the currently iterated log history item is owned by the currently logged in user, then we proceed to append the item
+
+							// Making the proper datetime string from the timestamp number
+							time = new Date(item.timestamp);
+							time = time.toLocaleString();
+
+							// Appending the filtered data item
+							wcbm.logs.push({
+								id : item.id,
+								people_id : item.people_id,
+								month : item.month,
+								year : item.year,
+								people_name : item.people_name,
+								datetime : time,
+							});
+						} else {
+							// If the currently iterated log history item is not owned by the currently logged in user, then we continue to the next iteration to repeat the same process
+
+							continue;
+						}
+					}
+				}
+
+				// Creating a blank data object for storing all the required data to be rendered on the frontend side (Only the data other than the WCBM backend data)
+				data = {}
+
+				// Generating the years for setting the form dropdown input values
+				data.years = [];
+				let date = new Date();
+				n = date.getFullYear();
+				while (n >= 1990) {
+					data.years.push(n);
+					n -= 1;
+				}
+			} catch(error) {
+				// If there are any errors encountered during the process, then we return the error message back to the client using the server-failure template
+
+				return response.render('error/server-failure', {error : error});
+			}
+
+			// Rendering the 'wcbm.ejs' file after loading all the required information
+			return response.render('wcbm', {username : request.session.username, data : data, wcbm : wcbm});
+		}
+	} else {
+		// If the user is not logged in, then we redirect the user to the login page
+
+		response.redirect(`/login?redirect=${request.protocol + '://' + request.get('host') + request.originalUrl}`);
+	}
+});
+//
+app.post('/wcbm', (request, response) => {
+	/* The function which serves the response when there is a POST request on the '/wcbm' URL of the app. The function serves multiple tasks related to the WhatsApp Chats Backup Manager application. Those tasks are listed below :
+	1. Adds up a new person (conversation)
+	2. Uploads and enters new conversation logs for the existing persons. */
+
+	// Checking if the user is logged in or not
+	if (request.session.loggedIn) {
+		// If the user is already logged in, then we continue to complete the task
+
+		// Getting the task info from the POST request data
+		let task = request.body.task;
+
+		// Proceeding to complete the task as per specified by the POST request
+		if (task == 'new-people') {
+			// If the task specified is to create a new person's chat folder, then we proceed to compelete the task
+
+			// Getting the required information from the POST request data
+			let name = request.body.name;
+			let description = request.body.description;
+
+			// Getting the other required information
+			let timestamp = new Date();
+			timestamp = timestamp.valueOf();  // Getting the timestamp at which the person info was created
+
+			try {
+				// First we will verify the user entered password
+				let password = request.body.password;
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
+				for (let user of data) {
+					// Iterating through each user credentials data item
+
+					if (user.username == request.session.username) {
+						// Now checking the password authentication for the currently logged in user
+
+						if (user.password == hash(password)) {
+							// If the password entered by the user at the frontend matches the original password, then we continue for our completion of task
+
+							// Fetching the wcbm service data from the datafiles
+							data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+
+							// Adding the new people data into the existing data
+							// Generating the Id for the new people data entry
+							try {
+								id = data.people[data.people.length - 1].info.id + 1;
+							} catch(error) {
+								id = 1;
+							}
+
+							// Encrypting the user entered description with the user entered password
+							description = encrypt(description, password);
+
+							data.people.push({
+								info : {
+									id : id,
+									name : name,
+									description : description,
+									timestamp : timestamp,
+									owner : request.session.username,
+								},
+								logs : [],
+							});
+
+							// Re-inserting the data back to the wcbm datafile
+							FS.writeFileSync(__dirname + '/datafiles/wcbm', JSON.stringify(data));
+
+							// If we reached upto this step without any error, then we can say that the task been executed successfull and thus we return an success message back to the client
+							return response.send('success');
+						} else {
+							// If the password entered by the user at the frontend matches the original password, then we return a password incorrect error message back to the client
+
+							return response.send('Incorrect password');
+						}
+					}
+				}
+
+				// If we have reached out of the loop and still the task is not executed, then we can assume that the user does not exists in the database, thus we return an error message back to the client
+				return response.send('No such user exists. Please log out and try again.');
+			} catch(error) {
+				// If there are errors are encountered during the process, then we return the error message back to the client
+
+				return response.send(`${error.message}`);
+			}
+		} else if (task == 'new-chatlog') {
+			// If the task specified is to insert a new chat log in an existing person, then we proceed to complete the task
+
+			try {
+				// First verifying the user password
+				let password = request.body.password;
+				data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/users'));
+				for (let user of data) {
+					// Iterating through each user credentials data item
+
+					if (user.username == request.session.username) {
+						// Now checking the password authentication for the currently logged in user
+
+						if (user.password == hash(password)) {
+							// If the password entered by the user at the frontend matches the original password, then we continue for our completion of task
+						
+							// Getting the requried information from the POST request data
+							let id = request.body.id;
+							let month = request.body.month;
+							let year = request.body.year;
+							let description = request.body.description;
+							let file = request.body.file;
+							let timestamp = new Date();  // Getting the current datetime for the chatlog entry details
+							timestamp = timestamp.valueOf();
+
+							// Encrypting the description entered by the user with password
+							description = encrypt(description, password);
+
+							// Creating the file name to store the chatlog contents
+							// The filename for a chatlog text file is in the format
+							// A-B-C { where A = people Id, B = month name, C = year }
+							//
+							let filename = `${id}-${month.toLowerCase()}-${year}-${timestamp}`;
+
+							// Writting to the wcbm data logs
+							// Fetching the wcbm service data from the datafiles
+							data = JSON.parse(FS.readFileSync(__dirname + '/datafiles/wcbm'));
+
+							// Getting the required people item with the user specified people Id
+							for (item of data.people) {
+								// Iterating through each item in order to find the required item
+
+								if (item.info.id == id) {
+									// If the currently iterated item is the one user specified
+
+									// Checking wheter the user specified people does actually belongs to the currently logged in user or not
+									if (item.info.owner != request.session.username) {
+										// If the people entry does not belong to the currently logged in user, then we return an error back to the client
+
+										return response.send('The specified people item does not belong to you. If further violation or abuse is continued, then we might ban you from using our services.');
+									}
+
+									// Saving the file to the server
+									FS.writeFileSync(__dirname + '/media/uploads/chat_files/' + filename, file);
+
+									// Appending the new chatlog entry
+									item.logs.push({
+										month : month,
+										year : year,
+										description : description,
+										file : filename,
+										timestamp : timestamp,
+									});
+								}
+							}
+
+							// Adding the log to the log history in the datafiles
+							data.logs.push({
+								id : data.logs.length + 1,
+								people_id : id,
+								month : month,
+								year : year,
+								description : description,
+								file : filename,
+								timestamp : timestamp,
+								owner : request.session.username,
+							});
+
+							// Saving the updated data back to the datafiles
+							FS.writeFileSync(__dirname + '/datafiles/wcbm', JSON.stringify(data));
+
+							// If the process is executed without any error, then we return success message back to the client
+							return response.send('success');
+						} else {
+							// If the password entered by the user at the frontend does not matches the original password, then we return the error message back to the client
+
+							return response.send('Incorrect password');
+						}
+					}
+				}
+
+				// If we have reached out of the loop and still the task is not executed, then we can assume that the user does not exists in the database, thus we return an error message back to the client
+				return response.send('No such user exists. Please log out and try again.');
+			} catch(error) {
+				// If there are any errors encountered during the process, then we return the error message back to the client
+
+				return response.send(`${error.message}`);
+			}
+		} else {
+			// If the task specified is not valid and not defined how to be executed by the backend, then we proceed to return an error message back to the user
+
+			return response.send('No task specified that is to be executed, please specify a proper and valid task that is recognized by the application.');
 		}
 	} else {
 		// If the user is not logged in, then we redirect the user to the login page
