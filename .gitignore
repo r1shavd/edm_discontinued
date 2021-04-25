@@ -16,5 +16,5 @@ tmp/
 datafiles/
 
 # Ignoring the media files (the user uploaded files)
-media/uploads/file_attachements/*
+media/uploads/chat_files/*
 media/uploads/images/*

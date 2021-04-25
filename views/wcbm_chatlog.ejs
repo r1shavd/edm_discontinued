@@ -16,15 +16,54 @@
 		<p class="welcome-info">Chatlogs tab : Here you can find out the details about a chatlog or see the entire set of logs.</p>
 	</div>
 
-	<!-- <% if (log == undefined) { %>
-	<% for (let log of logs) { %>
-	<%= log.month %>
-	<% } %>
+	<% if (log == undefined) { %>
+	<!-- Displaying the entire set of logs made by the current user -->
+	<div class="container entries-logs-container">
+		<h3>History of chatlogs</h3>
+		<% if (logs.length == 0) { %>
+		<!-- If there are no chatlog history, then we display the message of no history -->
+		<p>No history of chatlogs entries available.</p>
+		<% } else { %>
+		<!-- Search form for the chatlogs -->
+		<div class="search-bar">
+			<input type="text" name="search-query" placeholder="Search for logs">
+		</div>
+
+		<button class="btn blue-button modal-show-btn" href="#decrypt-info-form">Decrypt information</button>
+
+		<!-- Displaying the history of chatlog entries on the web page -->
+		<% for (let item of logs) { %>
+		<div class="log-info">
+			<p>
+				Chatog inserted of <b><%= item.month %>-<%= item.year %></b> <a href="/wcbm?tab=chatlogs&id=<%= item.id %>">View</a> <span class="datetime"><%= item.datetime %></span>
+				<span class="chatlog-description"><%= item.description %></span>
+			</p>
+		</div>
+		<% } %>
+		<% } %>
+	</div>
 	<% } else { %>
-	<%= log.month %>
-	<% } %> -->
+	<!-- TO BE UPDATED LATER -->
+	<% } %>
+
+	<!-- The modal that contains the form for the decryption of the information on the page -->
+	<div class="modal-dialog" id="decrypt-info-form">
+		<div class="modal">
+			<div class="modal-head">
+				Decrypt information <span class="modal-close-btn">&times;</span>
+			</div>
+			<div class="modal-body">
+				<!-- The form for the decryption of the data for the currently loaded people information -->
+				<input type="password" name="decrypt-info-password" placeholder="Enter your password">
+				<br><br>
+				<button class="btn blue-button" id="decrypt-info-btn">Decrypt information</button>
+			</div>
+			<div class="foot">
+			</div>
+		</div>
+	</div>
 	
 </body>
 <%- include('basic/scripts.ejs') %>
-<!-- <script type="text/javascript" src="/js/wcbm_people.js"></script> -->
+<script type="text/javascript" src="/js/wcbm_chatlog	.js"></script>
 </html>

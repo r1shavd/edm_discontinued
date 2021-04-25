@@ -63,55 +63,60 @@ try {
 		}
 	});
 } catch(error) {
-	// If there are any errors, then we skip them
+	// If there are any errors, then we skip them (MAINLY, WHEN THE BUTTON IS NOT DEFINED ON THE WEBPAGE)
 }
 
-// Adding the on write event listener to the search-bar textbox of the chatlogs history container of the webpage
-const searchChatlogsInputBox = document.querySelector('.search-bar input[name="search-query"]');
-searchChatlogsInputBox.addEventListener('change', (e) => {
-	/* When the user changes the value at the search chatlogs input box, or simply types there, then this function is called. The functions reads the user entered search query, and then filters the specific chatlogs. */
+try {
+	// Adding the on write event listener to the search-bar textbox of the chatlogs history container of the webpage
+	const searchChatlogsInputBox = document.querySelector('.search-bar input[name="search-query"]');
+	searchChatlogsInputBox.addEventListener('change', (e) => {
+		/* When the user changes the value at the search chatlogs input box, or simply types there, then this function is called. The functions reads the user entered search query, and then filters the specific chatlogs. */
 
-	e.preventDefault();
+		e.preventDefault();
 
-	// Reading the user entered search query
-	let searchQuery = searchChatlogsInputBox.value;
+		// Reading the user entered search query
+		let searchQuery = searchChatlogsInputBox.value;
+		searchQuery = searchQuery.toLowerCase();  // Converting the search query characters to all into lower case alphabets
 
-	// Validating the user entered search query
-	if (searchQuery.length != 0) {
-		// If the user entered search query is not empty, then only we continue the process of searching and filtering
+		// Validating the user entered search query
+		if (searchQuery.length != 0) {
+			// If the user entered search query is not empty, then only we continue the process of searching and filtering
 
-		// Getting all the chatlog HTML elements
-		chatlogs = document.getElementsByClassName('log-info');
+			// Getting all the chatlog HTML elements
+			chatlogs = document.getElementsByClassName('log-info');
 
-		// Filtering the chatlogs elements as per the search query
-		let noOfLogsDisplayed = 0;
-		for (let log of chatlogs) {
-			// Iterating through each chatlog item
+			// Filtering the chatlogs elements as per the search query
+			let noOfLogsDisplayed = 0;
+			for (let log of chatlogs) {
+				// Iterating through each chatlog item
 
-			description = log.querySelector('.chatlog-description').innerText;
-			if (description.includes(searchQuery)) {
-				// If the description of the chatlog contains the user entered search query, then we display the specific chatlog element
+				description = log.querySelector('.chatlog-description').innerText.toLowerCase();
+				if (description.includes(searchQuery)) {
+					// If the description of the chatlog contains the user entered search query, then we display the specific chatlog element
 
+					log.style.display = 'block';
+					noOfLogsDisplayed += 1;
+				} else {
+					// If the user entered search query is not included in the currently iterated chatlog item, then we hide it from the webpage
+
+					log.style.display = 'none';
+				}
+			}
+
+			// Checking if there are no chatlog elements being displayed, then we display the message there that "Search results : No such chatlogs found as per search query."
+			// document.querySelector('.container.entries-logs-container').innerHTML = `<h3>History of chatlogs</h3><div class="search-bar" style="display: block;"><input type="text" name="search-query" placeholder="Search for logs"></div><p>Search results : No such chatlogs found as per search query.</p>`;
+		} else {
+			// If the user entered search query is blank, then we display every chatlog elements unbiased
+
+			// Getting all the chatlog HTML elements
+			chatlogs = document.getElementsByClassName('log-info');
+			
+			// Displaying all the chatlogs on the webpage
+			for (let log of chatlogs) {
 				log.style.display = 'block';
-				noOfLogsDisplayed += 1;
-			} else {
-				// If the user entered search query is not included in the currently iterated chatlog item, then we hide it from the webpage
-
-				log.style.display = 'none';
 			}
 		}
-
-		// Checking if there are no chatlog elements being displayed, then we display the message there that "Search results : No such chatlogs found as per search query."
-		// document.querySelector('.container.entries-logs-container').innerHTML = `<h3>History of chatlogs</h3><div class="search-bar" style="display: block;"><input type="text" name="search-query" placeholder="Search for logs"></div><p>Search results : No such chatlogs found as per search query.</p>`;
-	} else {
-		// If the user entered search query is blank, then we display every chatlog elements unbiased
-
-		// Getting all the chatlog HTML elements
-		chatlogs = document.getElementsByClassName('log-info');
-		
-		// Displaying all the chatlogs on the webpage
-		for (let log of chatlogs) {
-			log.style.display = 'block';
-		}
-	}
-});
+	});
+} catch(error) {
+	// If there are any errors encountered in the process, then we skip them (Mainly, if the search input box is not defined on the webpage)
+}

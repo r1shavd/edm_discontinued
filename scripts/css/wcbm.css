@@ -200,13 +200,13 @@ Same rules are applied as per the other CSS files.
 	color: #2ecc71;
 	text-transform: uppercase;
 }
-.people-box .entries-logs-container .chatlog-description {
+.entries-logs-container .chatlog-description {
 	display: none;
 }
-.people-box .entries-logs-container .search-bar {
+.entries-logs-container .search-bar {
 	display: none;
 }
-.people-box .entries-logs-container .search-bar input[type="text"] {
+.entries-logs-container .search-bar input[type="text"] {
 	width: 60%;
 	padding: 10px;
 	border-radius: 5px;
@@ -214,11 +214,11 @@ Same rules are applied as per the other CSS files.
 }
 
 /* Setting the properties for the people-info-decrypt-form HTML elements and its inner elements. */
-#people-info-decrypt-form .modal {
+#people-info-decrypt-form .modal, #decrypt-info-form .modal {
 	width: 85%;
 	margin: 2px;
 }
-#people-info-decrypt-form .modal input[name="people-info-decrypt-password"] {
+#people-info-decrypt-form .modal input[name="people-info-decrypt-password"], #decrypt-info-form .modal input[name="decrypt-info-password"] {
 	width: 80%;
 	padding: 10px;
 	border: 1px solid lightgray;
@@ -228,7 +228,7 @@ Same rules are applied as per the other CSS files.
 @media only screen and (min-width: 850px) {
 	/* Alteration in CSS properties of some elements when switched to mobile view */
 
-	#people-info-decrypt-form .modal {
+	#people-info-decrypt-form .modal, #decrypt-info-form .modal {
 		width: 70%;
 		margin: 10px 12.5%;
 	}

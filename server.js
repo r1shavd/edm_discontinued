@@ -1023,10 +1023,10 @@ app.get('/wcbm', (request, response) => {
 							logs.push({
 								id : item.id,
 								people_id : item.people_id,
-								month : month,
-								year : year,
-								description : description,
-								file : filename,
+								month : item.month,
+								year : item.year,
+								description : item.description,
+								file : item.filename,
 								datetime : time,
 							});
 						}
@@ -1275,6 +1275,7 @@ app.post('/wcbm', (request, response) => {
 
 									// Appending the new chatlog entry
 									item.logs.push({
+										id : data.logs.length + 1,
 										month : month,
 										year : year,
 										description : description,
