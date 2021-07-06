@@ -180,23 +180,23 @@ Same rules are applied as per the other CSS files.
 }
 
 /* Setting the CSS properties for the people-box HTML element and its inner HTML elements. The element is only displayed at the people tab page, and the box contains the detailed information about a people item created by the users. */
-.people-box {
+.people-box, .chatlog-box {
 	width: 100%;
 	border-top: 2px solid #afafaf;
 	padding: 10px 0px;
 }
-.people-box .basic-info table {
+.people-box .basic-info table, .chatlog-box .basic-info table {
 	width: 100%;
 	border: 1px solid #afafaf;
 	padding: 2.5px;
 }
-.people-box .basic-info table td, .people-box .basic-info table th {
+.people-box .basic-info table td, .people-box .basic-info table th, .chatlog-box .basic-info table td, .chatlog-box .basic-info table th {
 	border: 1px solid #afafaf;
 	padding: 10px;
 	color: #fff;
 	background-color: #2d3436;
 }
-.people-box .basic-info table th {
+.people-box .basic-info table th, .chatlog-box .basic-info table th {
 	color: #2ecc71;
 	text-transform: uppercase;
 }

@@ -994,6 +994,31 @@ app.get('/wcbm', (request, response) => {
 							}
 						}
 					}
+
+					// Fetching the information for the people item to which the specified chatlog belongs
+					log.people_info = {}
+					for (let item of data.people) {
+						// Iterating through all the items to find the required item
+
+						if (item.info.id == log.people_id) {
+							// If we get the match of the people id, then we continue to fetch out information of the people item
+
+							item.info.datetime = new Date(item.info.timestamp);
+							item.info.datetime = item.info.datetime.toLocaleString();
+							log.people_info = item.info;
+						} else {
+							// If the currently iterated people id donot matches the chatlog, then we continue for next iteration
+
+							continue;
+						}
+					}
+
+					// Checking if the people info is found or not
+					if (log.people_info == {}) {
+						// If the people info is still blank, then we can assume that the specified people id does not exists and we mark it undefined
+
+						log.people_info = undefined;
+					}
 				} catch(error) {
 					// If there are any errors encountered during the process, then we display the error message to client using the server failure error page
 

@@ -20,6 +20,7 @@
 	<!-- Displaying the entire set of logs made by the current user -->
 	<div class="container entries-logs-container">
 		<h3>History of chatlogs</h3>
+
 		<% if (logs.length == 0) { %>
 		<!-- If there are no chatlog history, then we display the message of no history -->
 		<p>No history of chatlogs entries available.</p>
@@ -40,10 +41,70 @@
 			</p>
 		</div>
 		<% } %>
+
 		<% } %>
 	</div>
 	<% } else { %>
-	<!-- TO BE UPDATED LATER -->
+	<!-- Displaying the complete information for the particular set of the chatlog -->
+	<div class="chatlog-box">
+		
+		<!-- The basic information for the chatlog entry -->
+		<% if (log.people_info == undefined) { %>
+		<% } else { %>
+		<div class="container basic-info">
+			<h2>Displaying information for chatlog entry with id-<%= log.id %></h2>
+
+			<!-- Displaying the basic info for the chatlog entry -->
+			<h3>Basic information for chatlog entry with id-<%= log.id %> :</h3>
+			<table>
+				<tr>
+					<th>Month</th>
+					<td><%= log.month %></td>
+				</tr>
+				<tr>
+					<th>Year</th>
+					<td><%= log.year %></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td class="description"><%= log.description %></td>
+				</tr>
+				<tr>
+					<th>Chatlog Id</th>
+					<td><%= log.id %></td>
+				</tr>
+				<tr>
+					<th>Datetime</th>
+					<td><%= log.datetime %></td>
+				</tr>
+			</table>
+
+			<!-- Displaying the basic info for the owner people-item -->
+			<h3>Basic information for people item that owns this chatlog :</h3>
+			<table>
+				<tr>
+					<th>Name</th>
+					<td><%= log.people_info.name %></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td class="description"><%= log.people_info.description %></td>
+				</tr>
+				<tr>
+					<th>People-Id</th>
+					<td><%= log.people_info.id %></td>
+				</tr>
+				<tr>
+					<th>Datetime</th>
+					<td><%= log.people_info.datetime %></td>
+				</tr>
+			</table>
+
+			<br>
+			<button class="btn blue-button modal-show-btn" href="#people-info-decrypt-form">Decrypt information</button>
+		</div>
+		<% } %>
+	</div>
 	<% } %>
 
 	<!-- The modal that contains the form for the decryption of the information on the page -->
@@ -65,5 +126,5 @@
 	
 </body>
 <%- include('basic/scripts.ejs') %>
-<script type="text/javascript" src="/js/wcbm_chatlog	.js"></script>
+<script type="text/javascript" src="/js/wcbm_chatlog.js"></script>
 </html>
