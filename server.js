@@ -1,9 +1,19 @@
 /*
-Encrypted Diary Management (web application version)
+server.js Encrypted Diary Management
 
-Author : Rishav Das
-Programming language used : JavaScript (for backend), HTML and CSS (for frontend)
-Technologies used : NodeJs
+This is the main source file for the web application of EDM. This source file contains the code which defines and declares the endpoints of the web app, as well as handle maximum backend functionalities. This source file currently defines the endpoints for the main index page, Personal Diary, as well as the Whatsapp chat backup management service.
+
+Author : Rishav Das (https://github.com/rdofficial/)
+Created on : March 4, 2021
+
+Last modified by : Rishav Das (https://github.com/rdofficial/)
+Last modified on : July 7, 2021
+
+Changes made in the last modifications :
+1. Added proper commented docs to the source code file.
+
+Authors contributed to this script (Add your name below if you have contributed) :
+1. Rishav Das (github:https://github.com/rdofficial/, email:rdofficial192@gmail.com)
 */
 
 // Importing the required modules into our application's main file
